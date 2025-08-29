@@ -6,6 +6,8 @@ peakwatch解锁
 
 ^https?:\/\/api\.peakwatch\.co\/api\/v1\/d\/check url script-response-body peakwatch.js
 ^https?:\/\/api\.peakwatch\.co\/api\/v1\/d\/confirm url script-response-body peakwatch.js
+
+[Script]
 # peakwatch解锁
 peakwatch1 = type=http-response,pattern=^https?:\/\/api\.peakwatch\.co\/api\/v1\/d\/check,requires-body=1,max-size=0,script-path=peakwatch.js
 peakwatch2 = type=http-response,pattern=^https?:\/\/api\.peakwatch\.co\/api\/v1\/d\/confirm,requires-body=1,max-size=0,script-path=peakwatch.js
