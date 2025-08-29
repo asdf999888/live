@@ -1,10 +1,10 @@
 /*
 
-peakwatch解锁
+stress watch解锁
 
 [rewrite_local]
-
 ^https?:\/\/api\.ideation\.love\/api\/v1\/d\/check url script-response-body peakwatch.js
+[Script]
 # stresswatch解锁
 stress = type=http-response,pattern=^https?:\/\/api\.ideation\.love\/api\/v1\/d\/check,requires-body=1,max-size=0,script-path=stress.js
 
