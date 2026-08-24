@@ -292,6 +292,15 @@
       "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/xiaoyaAList.js"
     },
     {
+      "id": "聚合榜单",
+      "title": "聚合实时数据",
+      "description": "聚合榜单数据",
+      "requiredVersion": "0.0.1",
+      "version": "1.0.5",
+      "author": "NOT",
+      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/forward_rank.js"
+    },
+    {
       "id": "荐片",
       "title": "荐片",
       "description": "全网搜索好看的视频",
