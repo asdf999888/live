@@ -1,7 +1,7 @@
 {
   "title": "自用的模块",
   "description": "个人自用哈",
-  "icon": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/tubiao/makka.png",
+  "icon": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/tubiao/makka.png",
   "widgets": [
     {
       "id": "anime_omni_fix",
@@ -10,7 +10,7 @@
       "requiredVersion": "0.0.1",
       "version": "2.4.2",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/dongmanone.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/dongmanone.js"
     },
     {
       "id": "super_ultime_media_hub_makka",
@@ -19,7 +19,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.2.0",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/mk-2.0/MakkaPakka-ALL.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/mk-2.0/MakkaPakka-ALL.js"
     },
     {
       "id": " global_series_makka",
@@ -28,7 +28,7 @@
       "requiredVersion": "0.0.1",
       "version": "2.1.1",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/Globalseries.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/Globalseries.js"
     },
     {
       "id": "movie_ultimate_makka_v2",
@@ -37,7 +37,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.4.0",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/movielist.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/movielist.js"
     },
     {
       "id": "trakt_personal_key",
@@ -46,7 +46,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.1.9",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/traktkey.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/traktkey.js"
     },
     {
       "id": "trakt_personal_mixed",
@@ -55,7 +55,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.1.9",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/trakt.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/trakt.js"
     },
     {
       "id": "tmdb_upcoming_center_makka",
@@ -64,7 +64,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.1",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/redu.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/redu.js"
     },
     {
       "id": "variety_hub_ultimate_v4_fix",
@@ -73,7 +73,7 @@
       "requiredVersion": "0.0.1",
       "version": "2.0.4",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/zongyi.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/zongyi.js"
     },
     {
       "id": "global_tv_calendar_ultimate",
@@ -82,7 +82,7 @@
       "requiredVersion": "0.0.1",
       "version": "2.1.2",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/zjrl.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/zjrl.js"
     },
     {
       "id": "cinephile_hub_ultimate",
@@ -91,7 +91,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/xilie.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/xilie.js"
     },
     {
       "id": "discover_hub_ultimate",
@@ -100,7 +100,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.6",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/today.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/today.js"
     },
     {
       "id": "ultimate_media_hub_pro_ui",
@@ -109,7 +109,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.3.4",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/mediahub.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/mediahub.js"
     },
     {
       "id": "ultimate_media_repair_ui",
@@ -118,7 +118,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.3.6",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/mediahubrepair.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/mediahubrepair.js"
     },
     {
       "id": "makka.platform.originals",
@@ -127,7 +127,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.1.0",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/liumeititime.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/liumeititime.js"
     },
     {
       "id": "platform.originals.ui.fix",
@@ -136,7 +136,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.6",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/liumeiti.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/liumeiti.js"
     },
     {
       "id": "forward.combined.makkapakka",
@@ -145,7 +145,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.2.1",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/ysbd.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/ysbd.js"
     },
     {
       "id": "vod_max_engine_makka",
@@ -154,7 +154,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.0",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/VodMax.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/VodMax.js"
     },
     {
       "id": "makka_global_networks",
@@ -163,7 +163,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.2.4",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/ALLINONE.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/ALLINONE.js"
     },
     {
       "id": "Letterboxd_makka",
@@ -172,7 +172,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.2.0",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/qt/letterboxd.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/qt/letterboxd.js"
     },
     {
       "id": "imdb_cn_fix_",
@@ -181,7 +181,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/imdb.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/imdb.js"
     },
     {
       "id": "901",
@@ -190,7 +190,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/901.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/901.js"
     },
       {
       "id": "902",
@@ -199,7 +199,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/902.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/902.js"
     },
       {
       "id": "903",
@@ -208,7 +208,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/903.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/903.js"
     },
       {
       "id": "904",
@@ -217,7 +217,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/904.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/904.js"
     },
       {
       "id": "905",
@@ -226,7 +226,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/905.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/905.js"
     },
       {
       "id": "906",
@@ -235,7 +235,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/906.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/906.js"
     },
       {
       "id": "907",
@@ -244,7 +244,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/907.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/907.js"
     },
       {
       "id": "908",
@@ -253,7 +253,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/908.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/908.js"
     },
       {
       "id": "ddys",
@@ -262,7 +262,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/ddys_v128.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/ddys_v128.js"
     },
       {
       "id": "xiaoyaalist",
@@ -271,7 +271,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/xiaoyaAList.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/xiaoyaAList.js"
     },
     {
       "id": "聚合榜单",
@@ -280,7 +280,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/forward_rank.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/forward_rank.js"
     },
     {
       "id": "荐片",
@@ -289,7 +289,7 @@
       "requiredVersion": "0.0.1",
       "version": "1.0.5",
       "author": "NOT",
-      "url": "https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/jianpian%3Aapp.js"
+      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/asdf999888/live/refs/heads/main/jianpian%3Aapp.js"
     }
   ]
 }
