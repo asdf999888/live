@@ -76,15 +76,6 @@
       "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/zongyi.js"
     },
     {
-      "id": "western_trends_hub",
-      "title": "欧美风向标|口碑与热度",
-      "description": "聚合烂番茄(口碑)与流媒体平台(热度)，一站式掌握欧美影视动态。",
-      "requiredVersion": "0.0.1",
-      "version": "1.0.3",
-      "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/west.js"
-    },
-    {
       "id": "global_tv_calendar_ultimate",
       "title": "全球追剧时刻表",
       "description": "聚合全球剧集更新&综艺排期&bangumi动漫周更表。",
@@ -146,15 +137,6 @@
       "version": "1.0.6",
       "author": "NOT",
       "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/normal/liumeiti.js"
-    },
-    {
-      "id": "danmu.pro.online",
-      "title": "并发弹幕",
-      "description": "支持多api、繁简互转、数量限制、关键词屏蔽、颜色重写",
-      "requiredVersion": "0.0.2",
-      "version": "1.2.7",
-      "author": "NOT",
-      "url": "https://raw.githubusercontent.com/MakkaPakka518/FW/refs/heads/main/widgets/danmu/Danmubinfa.js"
     },
     {
       "id": "forward.combined.makkapakka",
