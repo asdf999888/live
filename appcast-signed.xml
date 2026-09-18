@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>Surge Mac's Changelog</title>
+    <language>en</language>
+    <item>
+      <title>Version 6.9.1</title>
+      <markdownDescription><![CDATA[
+### Improvements
+- The macOS logical rule editor now supports Pre-Matching for AND, OR, and NOT rules using a reject policy, and identifies unsupported sub-rules before saving.
+- Added UNKNOWN support to GEOIP and IP-ASN rules, allowing you to match destination IP addresses with no corresponding country or ASN database entry. Supported in both individual rules and rule sets.
+
+### Fixes
+- Fixed missing traffic statistics for UDP connections through proxies and tunnels, including WireGuard and Tailscale.
+- Fixed a rare issue where a UDP proxy connection closing during packet reception could stall other traffic handled by Surge.
+- Fixed dark menu text becoming unreadable on macOS 26 and improved menu bar icon colors when the system appearance changes.
+- Fixed unnecessary Surge Helper installation or upgrade alerts at startup when the enabled features do not require the helper.
+- Fixed Hysteria UDP traffic failing with servers where HTTP/3 Datagram negotiation interfered with UDP forwarding.
+- Fixed macOS Smart policy group context menus showing outdated usage or incorrect priority adjustments.
+
+]]></markdownDescription>
+      <pubDate>1788968251</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.9.1-12290-fb384eba25d82267269116bf821f4643.zip" sparkle:version="12290" sparkle:shortVersionString="6.9.1" sparkle:edSignature="RwSGvnVCnMq0yiz9tFJqnqsrMUk3bi9Ov94aSN52y+qljMnra/Z68hxeprRDcqhyFRUwF1qcdwyxU64xICwtBg=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.9.0</title>
+      <markdownDescription><![CDATA[
+### Protocol Updates
+
+- Added MASQUE proxy support, using HTTP/3 CONNECT for multiplexed TCP tunnels and CONNECT-UDP datagrams.
+- HTTP/2 CONNECT proxies can now relay UDP traffic with `udp-relay=true`.
+- TrustTunnel can now use HTTP/3 transport with `h3=true`.
+
+### Policy Group
+
+- Added group-level proxy chaining. A policy group can specify an underlying proxy, and all concrete proxy members in that group will connect through it. This can be configured with `underlying-proxy` or **Through Another Proxy** in the group editor view.
+- Added a UI **Policy Priority** editor for Smart Groups.
+
+### VM Gateway
+
+- Improved Gateway Mode IPv6 takeover: Fixed an issue where takeover could suddenly fail on some devices.
+- IPv6 RDNSS in Surge has now been restored under IPv6 takeover mode.
+- Updated the IPv6 fake IP range to avoid unnecessary browser local network permission prompts, with compatibility for previously cached addresses.
+
+### HTTP API
+
+- Added a Prometheus-compatible `/metrics` endpoint to the HTTP Controller, exposing build information, uptime, memory usage, active requests, DNS cache size, security bans, interface traffic, and per-policy traffic.
+
+### DNS
+
+- [Host] rules now support specifying a dedicated DNS server for domain aliases, for example: foo.com = bar.com, server:https://example/dns-query.
+
+### Tailscale
+
+- Tailscale can now establish peer-relay paths through eligible tailnet devices when a direct connection is unavailable, with Direct > Peer Relay > DERP path priority. Runtime details identify Peer Relay connections and display their latency.
+- Interactive sign-in now supports tailnets that require administrator device approval. Surge clearly indicates when sign-in has completed but the device is still awaiting approval.
+- Fixed Tailscale traffic becoming unavailable when the control server assigned the device a new tailnet address.
+- Improved recovery after network changes by retrying temporarily failed UDP bindings and refreshing direct-connect endpoints.
+- Improved WireGuard and Tailscale handling of multiple peers and expired connections.
+- Improved compatibility with the Tailscale administration console. Surge devices are no longer incorrectly reported as using an outdated client, enabling version-gated operations such as editing the device IP address.
+
+### Surge CLI
+
+- The CLI’s interactive mode now supports features such as auto-completion and command history.
+- Added `profile diff` to compare the original profile with the effective profile after modules have been applied.
+- Added `rule match` to evaluate the active rule set without creating a real connection. Hostname, URL, process, source address, client device, protocol, and other matching attributes can be supplied.
+- Added `rule explain` to show why a request selected a particular policy, including the matched rule, each policy-group decision, Smart Group selection, and underlying proxy chain.
+- Added `rule temp` commands to list, add, remove, modify, or clear temporary rules.
+- Added `dns lookup` to resolve a domain through Surge’s DNS pipeline and report the result, responding server, interface, route, timing, and cache lifetime.
+- Added `dns trace` to include the complete resolver trace, with optional lookup through a specified network interface.
+- Added `geoip` to query the local GeoIP and ASN databases used by `GEOIP` and `IP-ASN` rules.
+- Added `http probe` to perform an HTTP HEAD request through a specified policy or the active rule system, reporting status, latency, selected policy, matched rule, and response headers.
+- Added `dump performance` to inspect engine memory usage, uptime, active requests, DNS cache entries, virtual IP entries, temporary rules, and security bans.
+- Added `dump rule-usage` to inspect per-rule match counters without clearing them.
+- Added targeted `dump virtual-ip` queries by IP address or domain substring.
+- Added `benchmark rule-matching` to measure the matching performance of the active rule set.
+- Added `watch speed` to continuously display real-time upload and download speeds.
+- Added `security ban list` and `security ban clear` to inspect or reset Controller unauthorized-access bans.
+- Improved CLI help output with command categories and detailed help for individual commands.
+- Added `vmnet status` to inspect the VMNET interface configuration, including addresses, prefixes, MTU, and diagnostic table sizes.
+- Added `vmnet arp` to inspect IPv4 neighbors learned from Gateway Mode clients.
+- Added `vmnet ndp` to inspect the IPv6 neighbor table.
+- Added `vmnet ra` to inspect IPv6 Router Advertisement takeover status, including clients, known routers, RA lifetimes, and blacklisted devices.
+
+### Profile System
+
+- Profile sections can now combine inline content with `#!include` directives. Surge preserves the original ordering and mixed content when saving the profile.
+- Added wildcard detached-section includes for [Ruleset *], [WireGuard *], and [Tailscale *]. A single #!include can now load all matching named sections from another local or remote profile file.
+- Added DEVICE_NAME to the profile environment, enabling device-specific conditions in #!REQUIREMENT.
+- The current Reload Profile option will compare the differences between the old and new profiles and apply only the changes. It will not terminate existing active connections unless necessary. (Same behavior as editing through the UI previously.)
+- Added a Restart Engine option, which behaves like Reload Profile in the previous version and completely restarts the core once.
+
+### Script
+
+- Event scripts can now respond to `engine-started` and `profile-reloaded`, in addition to `network-changed`.
+
+### Improvements
+
+- Reworked the proxy editor, policy-group editors, parameter dialogs, the rule and ruleset editors, and the General, Interface, DNS, Profile, and License pages using a new System Settings-style card interface.
+- Local-file and inline rulesets can now be edited graphically on macOS and iOS. Add or modify standard rules, logical rules, nested rulesets, and comments, then reorder or remove entries as needed.
+- Added a graphical Port Forwarding editor for creating and managing incoming TCP forwarding rules. Listening address, listening port, destination, and outbound policy can all be configured without editing the profile manually.
+- Proxy connections closed during the protocol handshake now provide a clearer error message, with guidance to verify credentials, encryption methods, and protocol settings.
+- Improved MITM certificate generation by using separate keys for generated leaf certificates and correcting the transmitted certificate chain.
+- Improved stability under heavy connection churn and local-port exhaustion.
+
+### Fixed
+
+- Fixed an issue where DNS-over-HTTP/3 and DNS-over-QUIC servers specified in local DNS mappings could fail bootstrap resolution.
+- Fixed an issue where multiple macOS users on the same device had to reactivate Surge.
+- Fixed long-running VMess connections being terminated after the chunk counter wrapped.
+- Fixed system proxy settings being applied when using VIF mode without a default route.
+- Fixed QUIC connections potentially stalling after receive-side backpressure.
+- Fixed rare deadlocks involving cron-script shutdown and Vector UDP connections, including Ponte traffic.
+- Fixed long-running Ponte and Vector sessions eventually failing to open new relayed connections after handling many connections over the same QUIC session.
+
+]]></markdownDescription>
+      <pubDate>1788186888</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.9.0-12250-2e39a9dd675107098a3c4e779953f46a.zip" sparkle:version="12250" sparkle:shortVersionString="6.9.0" sparkle:edSignature="/RKZwMETfrIhwmfvkIQ0l4sV/0hai7KfaOWXhXj6mFBGnphZi1ISRdXaKYIplZ5q90OWS0uHmVpqNZdkx9uNDg=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.8.1</title>
+      <markdownDescription><![CDATA[
+- Fixed an issue where the Host field could be unexpectedly rewritten when handling requests in HTTP mode.
+- Fixed an issue in Gateway VM mode where unsolicited UDP packets sent to the gateway's own IP (such as NAT-PMP and unicast mDNS requests) could create excessive UDP sessions, causing high CPU usage.
+
+]]></markdownDescription>
+      <pubDate>1786372688</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.8.1-12030-69f4be88db9663476f31a6b264109f0b.zip" sparkle:version="12030" sparkle:shortVersionString="6.8.1" sparkle:edSignature="Y20CeDkOVmRqup4Em11hLa/cAghbZp5yc4K2YXv0bMJnwnkfwo27gHeS5gxs8GqOHLl35cUlzXc6WHpD+JeaAg=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.8.0</title>
+      <markdownDescription><![CDATA[
+## What's New
+
+### macOS 27
+
+- Began adapting the Surge interface for macOS 27 and added workarounds for macOS system bugs that could cause crashes when opening remote connections or presenting modal sheets while the system text-completion interface was active.
+
+### Snell v6 Server
+
+- Added Snell v6 support to the built-in Snell proxy server. Use `version=6` in the `[Snell Server]` section to enable it. Existing configurations continue to use Snell v1 by default.
+- Supports `default`, `unshaped`, and `unsafe-raw` modes through the `mode` parameter.
+- Supports reusable encrypted TCP transports and UDP tunneling.
+- Improved Snell handshake validation, connection lifecycle handling, EOF processing, and malformed UDP packet handling.
+
+### DHCP
+
+- Statically assigned IP addresses are now automatically excluded from the dynamic address pool, preventing duplicate allocation.
+- Upgraded the ISC DHCP server to version 4.4.3-P1.
+
+### TLS
+
+- Added `server-cert-verify-name` to independently specify the hostname used for proxy server certificate verification without changing SNI. This parameter applies to all TLS- and QUIC-based proxy protocols.
+
+### ECN
+
+- Reworked ECN configuration and packet handling across QUIC, WireGuard, Tailscale, Ponte, and nested UDP tunnels.
+- Correctly preserves ECN and DSCP/TOS metadata across IPv4 and IPv6 encapsulation and decapsulation.
+- For QUIC-based proxy protocols, when ECN is enabled, anomalies will be automatically detected and fallback to non-ECN handling.
+- ECN is now enabled by default for QUIC-based proxy protocols on supported systems. WireGuard and Tailscale remain disabled by default. Use `ecn=false` or `ecn=true` to override the default explicitly.
+- Surge Ponte now also has ECN enabled by default, and the `client-use-ecn` parameter has been removed.
+
+### DNS
+
+- Optimized TCP connection establishment for `prefer-v4` and `prefer-v6`. In earlier versions, these two parameters indicated which record to use when a domain name had both A and AAAA records. Now, during the TCP handshake, A or AAAA records are used preferentially; if the handshake cannot be completed within 3 seconds, other records will start to be tried.
+- Added DNS-over-TCP support. DNS server settings now accept `tcp://hostname[:port]`.
+
+### Tailscale
+
+- Added interactive Tailscale sign-in on iOS and macOS. Resolve the issue where some enterprise users are unable to obtain the auth key.
+- Added automatic Tailscale routing. Surge can discover the tailnet’s MagicDNS suffix and peer IPv4/IPv6 addresses, then automatically route matching domains and peer IP traffic through the corresponding Tailscale policy.
+- Automatic Tailscale routing is enabled by default and can be disabled with `auto-add-magic-dns-rule = false`.
+- Improved Tailscale session warm-up and recovery. Sessions now retry MagicDNS discovery after startup failures and network changes without requiring matching traffic to arrive first.
+- Tailscale sessions now stay active by default. An omitted `idle-keepalive`, `0`, or `-1` keeps the session always active; set a positive value to enable idle teardown.
+- Tailscale can now begin handling traffic as soon as a valid network map is received, without waiting for the home DERP connection to be established.
+- Improved recovery after network changes and control-server reconnections by preserving the last known home DERP region and retrying peer handshakes at the appropriate time.
+- Aligned DERP measurement and selection behavior with official Tailscale client, improving compatibility with custom DERP maps, STUN-only nodes, fallback probes, and temporarily unavailable control connections.
+- Sensitive values such as authentication keys and authorization URLs are now redacted from verbose Tailscale control logs.
+
+### Surge as MTProto Server
+
+Surge now can operate as an incoming MTProto proxy server for Telegram. 
+
+Please read manual for more information: https://manual.nssurge.com/
+
+### CLI & AI Skills
+
+Surge CLI has been significantly expanded into a comprehensive command-line management and diagnostics interface, with the following new commands: https://nssurge.com/blog/surge-cli-updates/
+
+### Core Version Alignment
+
+Starting with Surge Mac 6.8.0 and Surge iOS 5.21.0, the Core Version is derived directly from the corresponding Surge Mac version, eliminating the need to maintain a separate Core Version number. Please check the manual for more information: https://manual.nssurge.com/
+
+## Codebase Refactoring
+
+After more than a decade of development, the Surge codebase has grown into a large and complex project. To further improve reliability, we have introduced AI-assisted code review across the entire codebase.
+
+Every code change is independently reviewed by **Fable 5, GPT-5.6 Sol, and a human developer** before being merged, helping us identify potential security issues, rare crash scenarios, and subtle correctness problems.
+
+### DHCP
+
+- Improved DHCP server and IPv6 Router Advertisement detection, including interface binding, packet validation, timeout handling, and filtering of invalid responses.
+
+### TLS
+
+- Fixed a potential crash caused by reentrant TLS cleanup while pending BIO data was being flushed, particularly with nested TLS connections.
+- Improved MITM hostname matching for TLS and QUIC traffic on nonstandard ports while continuing to respect exclusion rules.
+- Improved MITM certificate and keystore validation and lifecycle reliability.
+- Fixed a possible macOS crash when keystore entries were edited while TLS or SSH connections were reading them.
+
+### DNS
+
+- Local DNS mappings can now specify multiple upstream DNS servers using a comma-separated list. (Fixed the issue where the previous version did not take effect correctly.)
+
+### SSH
+
+- Added support for importing SSH P-521 keys and improved error reporting for unsupported elliptic curves.
+- Strengthened server host-key verification when `server-fingerprint` is configured. A one-time security warning is now emitted when connecting without a configured fingerprint.
+- Fixed compatibility with fragmented identification banners, pre-banner lines, small channel windows, non-ASCII credentials, and modern RSA/SHA-2 authentication.
+- Added complete bidirectional rekey support and corrected key-switching, deferred channel operations, and connection cleanup during rekey.
+- Added strict validation and size limits for transport packets, key-exchange fields, signatures, channel parameters, and cryptographic values.
+- Fixed channel read/write timeouts, completion reporting, malformed-key handling, and several memory and resource leaks.
+
+### HTTP & HTTP/3
+
+- Added compatibility with clients that send unbracketed IPv6 addresses in HTTP `CONNECT` requests.
+- Added strict and consistent parsing for request and response headers, `Content-Length`, `Transfer-Encoding`, chunked coding, trailers, request targets, and status-specific body semantics.
+- Ambiguous or malformed framing, including conflicting `Content-Length` and `Transfer-Encoding` values, is now rejected consistently.
+- Fixed HTTP/1.1 pipelining boundaries so request bodies are forwarded strictly according to their declared length.
+- Improved HTTP/1 and HTTP/2 response handling, including interim responses, lowercase `HEAD` requests, and simultaneous `GOAWAY` shutdown.
+- Improved HTTP/2 request and response rewriting, including correct handling of empty header values, UTF-8 header lengths, forbidden connection-specific fields, and decoded bodies processed by scripts.
+- Added input and buffering limits to protocol detection, the HTTP controller, JSVM server endpoints, script body processing, proxy responses, and HTTP/3 full-response tasks such as DoH3.
+- Improved HTTP/3 stream reset, connection close, callback completion, and shutdown behavior to prevent stalled requests and reentrant teardown.
+- Improved handling of `HEAD`, `204`, `205`, and `304` responses and made script/rewrite header mutations transactional to prevent inconsistent wire framing.
+
+### Policy Selection
+
+- Added UDP-aware Smart Group scoring. Surge now learns from UDP response latency and silent relay failures to improve policy selection for UDP traffic.
+- Smart Group connections that receive no response data within three seconds are now marked as failed, allowing faster fallback to another policy.
+- Fixed potential crashes and inconsistent routing decisions when policy lookups occurred concurrently with a configuration reload.
+- Improved Smart Group concurrency handling and fixed site history or runtime data potentially being lost during configuration updates.
+- Fixed an issue where the “most used” policy score could become incorrect after an extended idle period.
+- Fixed several rule-evaluation paths that could stall indefinitely, reuse a canceled evaluation, or produce results from an outdated configuration.
+- Added safeguards against unexpected policy-group reference loops.
+- Fixed URL-Test groups ignoring an explicitly configured `tolerance=0`.
+
+### Surge Ponte
+
+- Added strict validation for device PSKs and encrypted payloads, preventing invalid or damaged iCloud device records from causing a crash.
+- Restricted Ponte confirmation links to valid iCloud CloudKit share URLs.
+- Fixed Ponte connections entering an incorrect state when IPv4 and IPv6 setup operations completed synchronously.
+- Improved dual-stack connection handling: if one IPv4 or IPv6 connector fails during setup, Ponte can continue using the remaining connector.
+- Fixed IPv6 server channels failing to recover automatically when a previously unavailable network interface becomes available.
+- Failed channels no longer publish stale external addresses to other devices.
+- Serialized CloudKit device-record updates to prevent duplicated, lost, or conflicting updates.
+- Improved CloudKit synchronization for Ponte and remote-device information.
+- Improved Vector UDP and QUIC stream lifecycle handling, including more reliable setup, teardown, and error reporting for Ponte and regular Vector connections.
+- Fixed legacy configuration migration and several server startup edge cases involving duplicate direct channels and unavailable STUN addresses.
+
+### TCP Connection Establishment
+
+- Fixed an unreachable cached “previously successful” address preventing fallback to other available addresses after a network change.
+- Improved connection-attempt error handling so every attempt reaches a definite success or failure state.
+- Corrected TCP connection statistics collection for sockets that never completed establishment.
+
+### Connection Management
+
+- Reworked TCP pacing to adapt to connection latency and reduce traffic bursts on Gateway Mode and WireGuard-based connections, while excluding local tunnel peers that do not require pacing and improving general TCP robustness.
+- Fixed memory growth and journal performance degradation on long-lived multiplexed connections such as SSH, Hysteria, TUIC, Vector, and HTTP/2.
+- Fixed a race where an idle master connection could close immediately after being assigned to a new request.
+- Improved connector abort handling to ensure cleanup and policy failure reporting occur only once.
+- Fixed TCP packet-loss statistics not being collected during common disconnection paths.
+- Improved thread safety when recording recent proxy errors and accessing connector state across queues.
+- When a local DNS mapping contains multiple candidates, one result is now used consistently throughout a logical connection while still allowing a new result after connector reuse or configuration updates.
+- Connector pools now remove empty entries and stop unnecessary maintenance timers.
+- Fixed underlying proxy groups resolving to `DIRECT` taking an unnecessary intermediate connector path.
+- Improved general connection cleanup and error propagation across HTTP, HTTP/3, TLS, and internal HTTP clients.
+- Improved TLS 1.3 connection reliability and prevented session reuse across incompatible SNI, ALPN, or certificate verification settings.
+- Improved Smart Group recovery following transient failures on reusable AnyTLS and Snell connections.
+- Fixed potential memory growth in Snell v6 UDP relay when the receiving client is slow or unresponsive.
+- Fixed Snell v6 incorrectly using the QUIC proxy mode intended only for Snell v5.
+- Fixed inaccurate traffic statistics under concurrent, high-volume requests.
+- Fixed pending traffic data potentially being lost during daily or monthly statistics rollover.
+- Improved the reliability and security of AnyTLS, Snell, Shadowsocks, VMess, Hysteria, TUIC, Vector, ShadowTLS, Trojan, TrustTunnel, WebSocket, and SOCKS5 connections.
+- Connections abandoned while waiting in the reuse pool now automatically retry with a new connection, reducing intermittent failures after network changes or idle periods.
+- Improved handling of fragmented protocol responses, preventing valid connections from being incorrectly rejected or left waiting indefinitely.
+- Added stricter limits and validation for UDP fragmentation and protocol buffering to reduce excessive memory usage.
+- Fixed a serious AnyTLS connection reuse issue that could route data to an incorrect logical stream.
+- Fixed several AnyTLS and Snell connection reuse issues that could return terminated connections to the pool or cause requests to hang.
+- Fixed TrustTunnel connections occasionally stalling or losing the end of a response under multiplexed or slow-transfer conditions.
+- Fixed SOCKS5 UDP relay failures caused by fragmented responses, multi-address DNS results, and domain-form response addresses.
+- Fixed Hysteria response-header validation rejecting or mishandling certain responses.
+- Fixed Hysteria, TUIC, and Vector connections incorrectly rejecting valid fragmented handshake responses.
+- Enforced the WebSocket message-size limit while data is being received, preventing oversized messages from consuming excessive memory.
+- Fixed UDP proxy handling for internationalized domain names.
+- Fixed malformed proxy responses potentially causing the Surge tunnel process to terminate.
+- Fixed several cases where malformed or incomplete proxy data could cause connections to hang or consume excessive memory.
+
+### UDP Reliability
+
+- Improved synchronization of local address and destination state across socket queues.
+- UDP receive backpressure now takes effect immediately instead of continuing to deliver additional batches after reads are paused.
+- Moved large batched receive buffers off the worker-thread stack, reducing the risk of stack exhaustion under heavy UDP traffic.
+- Fixed UDP packets with IPv6 scope differences being incorrectly rejected on metadata-enabled send paths.
+- Improved QUIC reliability on lossy networks by preventing legitimate duplicate retransmissions from triggering the protocol abuse limiter.
+
+### Gateway Mode
+
+- Improved Gateway Mode startup, shutdown, rollback, and configuration handling, including starting VMNET when its DHCP interface appears later. Partial failures no longer leave Gateway Mode in an incorrect state.
+- Improved handling of IPv6 router changes, tagged Ethernet frames, malformed packets, and fast-path failures. UDP fast-path blacklist changes now also apply to existing connections.
+- Improved long-running stability with limits and more frequent cleanup for learned devices and idle UDP states, along with more reliable DHCP startup, logging, and LAN device CSV imports.
+
+### Network Testing & Diagnostics
+
+- Fixed proxy tests continuing to run or remaining permanently marked as active when canceled before deferred startup completed.
+- UDP tests now reliably report invalid parameters, timeouts, cancellation, and connector failures to every caller.
+- Added a 64 KB response-header limit to URL tests.
+- Fixed Direct diagnostics incorrectly reporting a failed connection as a successful `0ms` result.
+- Improved ICMP parsing for IPv4 responses containing IP options.
+- Throughput tests now wait for all concurrent tasks before producing the final result.
+- Upload throughput tests now use genuinely independent concurrent connections, including with HTTP/1 servers.
+- Improved Ponte diagnostics cancellation, concurrency, completion handling, and resource cleanup.
+
+### External Resources
+
+- External resource pages on macOS and iOS now display live updating, ready, and failure states more accurately.
+- Remote-device management now reports the current update state and detailed errors for each external resource.
+- “Update All” now reports actual failures instead of completing successfully when one or more resources could not be updated.
+- HTTP error responses are no longer accepted as external resource content.
+- Ruleset and domain-set indexes are now generated transactionally. If downloaded content cannot be parsed or indexed, the last working index is preserved.
+- Active resources referenced by the current profile are no longer removed by age-based cache cleanup.
+- Fixed custom update intervals being lost when the same resource was referenced from multiple profile sections.
+- Profiles now reject using the same external resource as both a `RULE-SET` and a `DOMAIN-SET`.
+- Fixed stale official module data remaining visible after its cache was cleared and other correctness issues affecting official module updates.
+
+### Profiles & Cloud Sync
+
+- Profiles containing sections introduced by newer Surge versions no longer produce unnecessary unrecognized-section warnings.
+- Fixed iCloud synchronization potentially deadlocking, dropping pending uploads, or deleting profiles that had not yet synchronized.
+- Fixed Dropbox synchronization potentially overwriting newer local profile edits with an older remote copy.
+- Improved retry behavior and completion reporting when Dropbox synchronization encounters persistent errors.
+- Profile imports, replacements, upgrades, and backups are now performed atomically, reducing the risk of partial or corrupted files. Profile selection now changes only after the new profile has been saved successfully.
+- Improved profile-name collision detection during imports and replacements.
+- Fixed profile renaming or switching storage providers potentially losing files or disrupting cloud synchronization.
+- On macOS, profile symlink targets are now resolved before saving, and profile upgrades require a valid fresh backup.
+- Downloaded and managed-profile updates now use stricter response validation and safer replacement behavior.
+- Managed profiles are now protected from local writes that would accidentally remove their managed status.
+- Settings, ruleset cache, and managed-profile cache write failures are now reported instead of being silently ignored.
+- Hardened downloaded profile names and archive extraction against unsafe paths.
+- Improved DDNS synchronization and error reporting, including complete CloudKit pagination and correct handling when the public IP address cannot be obtained.
+- Fixed profiles with invalid text encoding potentially being interpreted as an empty profile and subsequently overwritten.
+- Improved profile, module, script, local mapping, external resource, and keystore editing to preserve user input and metadata. Failed writes are now reported and no longer cause the interface or tunnel to use unsaved or outdated state.
+
+### Configuration & Proxy Policies
+
+- Added `\"` and `\\` escape sequences inside double-quoted profile values, allowing values containing quotes to be saved and reloaded safely.
+- Removed unsupported legacy Shadowsocks ciphers, including `bf-cfb`, `camellia-*-cfb`, `cast5-cfb`, `des-cfb`, `idea-cfb`, `rc2-cfb`, and `seed-cfb`.
+- Policy priorities must now be positive values; zero and negative values are rejected during profile validation.
+- Fixed multi-value ALPN settings being corrupted or partially lost when proxy policies were copied or serialized.
+- Improved configuration parsing for quoted separators, empty quoted values, Unicode text, and limited-component splitting.
+- Improved configuration validation and diagnostics for policies, rules, modules, scripts, panels, MITM, port forwarding, WireGuard, Tailscale, MTProto, and Snell server settings.
+- Surge now warns when a quoted profile value cannot be safely preserved during serialization.
+- Fixed rewrite rules containing quotes or spaces potentially becoming corrupted after saving and reloading the profile.
+- Fixed values containing ` #`, ` //`, or ` ;` inside quotes being incorrectly treated as inline comments.
+- Fixed malformed CIDR masks potentially being interpreted as `/0` and matching all traffic.
+- Fixed underlying-proxy loops not always being detected during configuration validation.
+- Fixed false port-conflict warnings for listeners bound to different network addresses.
+- Fixed sensitive values not being consistently redacted when exporting profiles, including WireGuard preshared keys and port-forwarding credentials.
+- Fixed redacted MTProto and other secret placeholders potentially being rejected or lost during remote profile editing.
+
+### Surge CLI & Local Controller
+
+- Added the `managed-profile update` command to force-check, validate, replace, and reload the active managed profile.
+- Command errors are now written to standard error and produce a non-zero exit status.
+- Output is flushed immediately, improving behavior when the CLI is used from scripts or pipelines.
+- Added formatted output and help documentation for `test-policy-bandwidth`.
+- Local Controller connection information is now delivered through a protected Unix-domain socket instead of being stored in a plaintext file. Local Controller clients are validated by user identity and code signature before receiving connection credentials.
+- Hardened the internal proxy used by Controller and Ponte connections with a random per-session authentication key, bounded handshake buffering, and stricter request validation.
+- Improved Dashboard connectivity, archive export, USB communication, and Controller request validation, with timeouts and clearer errors for stalled operations.
+
+### Logbook, Dashboard & UI
+
+- Improved status-menu reliability, including updated Select-group checkmarks and recovery after menu presentation failures.
+- Improved Logbook search performance and fixed records disappearing when identifiers were duplicated.
+- Fixed Logbook record-type filters not being applied correctly.
+- Script timeout and exception records now display their result details correctly.
+- Fixed Dashboard potentially closing when sorting remote records with missing timestamps.
+- Fixed “Copy as cURL” output for URLs, headers, methods, or request bodies containing apostrophes.
+- Fixed option-selection screens showing a stale checkmark after changing the selected value.
+- Improved icon caching and added safeguards against excessively large downloaded images.
+- Fixed missing, incorrect, or corrupted image resources, including in Dashboard, and prevented related crashes.
+- Fixed drag-and-drop sorting of policy groups.
+
+### macOS App & System Integration
+
+- Improved license refresh and device identifier stability, especially when the Keychain is temporarily unavailable.
+- Improved tunnel and proxy startup failure cleanup and error reporting, preventing the interface from remaining in a loading state.
+- Fixed hosts-file monitoring stopping after applications replaced the file during an atomic save.
+- Fixed missing or corrupted SSID History entries during concurrent app and tunnel-extension access.
+- Improved Wi-Fi SSID updates, network-change notifications, IPv6 router lookup, and handling of incomplete system network information.
+- Hardened privileged helper operations with stricter caller, executable, payload, and path validation, together with more reliable error reporting and cleanup, including for helper removal failures.
+- Fixed potential crashes when network interfaces temporarily provide no address or netmask information.
+- Fixed route-table diagnostics potentially terminating the app or leaking memory when system route information could not be read.
+- Improved error messages throughout the macOS app, Dashboard, and networking components.
+
+## Other Improvements
+
+- Improved DNS, IP, UDP, and ruleset processing to handle malformed input safely without disrupting the tunnel.
+- Improved GeoIP/MMDB compatibility and reliability, including safer parsing and database reloads.
+- Fixed potential crashes caused by malformed RDAP responses.
+- Improved WHOIS/RDAP support for internationalized domains and reduced bootstrap loading time by downloading missing datasets concurrently.
+- Fixed stale incoming-proxy ban records not being cleaned up correctly and potentially weakening repeated-failure blocking.
+- Fixed several correctness issues affecting HAR export status text and progress, RDAP CIDR rendering, network-quality notifications, and log upload callbacks.
+- Fixed several malformed DNS or network packets potentially causing the tunnel process to terminate.
+
+]]></markdownDescription>
+      <pubDate>1786025565</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.8.0-11990-f036c2c1b04dd8ce81d8aec114ccfdcf.zip" sparkle:version="11990" sparkle:shortVersionString="6.8.0" sparkle:edSignature="YYQzUxaHnZx7GJ+uqMyCueuzp81Pgz7mgt2LOdu7t/to8mxR3ZLB3DCpqynSA7l2rZxEM8Yulw59PoVdMsuRAw=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.7.0</title>
+      <markdownDescription><![CDATA[
+### Tailscale Support
+
+Surge now supports Tailscale as a policy.
+
+With this feature, Surge can join your Tailscale tailnet directly and route selected traffic through Tailscale peers using the existing Surge rule system. You can use Tailscale IPs, and tailnet-only services together with Surge policies, policy groups, DNS handling, traffic logging, and rule-based routing.
+
+Please check the manual for more information: https://manual.nssurge.com/policy/tailscale.html
+
+### Snell v6
+
+Introduced Snell v6, featuring PSK-derived deployment-level protocol diversity that generates unique traffic characteristics for each deployment, reducing reliance on a single protocol fingerprint while preserving Snell’s core goals of performance, deployment simplicity, accurate error reporting, and full TCP semantics. Snell v6 also adds new IPv4/IPv6 network stack controls including dns-ip-preference and multi-address listen support, and is currently available for beta testing.
+
+Please check our blog for more information: https://nssurge.com/blog/snell-v6/
+
+### Codebase Refactoring
+
+We have completed a comprehensive review of Surge’s core functionality and resolved numerous implementation issues, edge cases, and long-standing inconsistencies.
+
+This ongoing refactoring effort improves maintainability and helps provide a more robust foundation for future development.
+
+### WireGuard
+
+WireGuard policies now use a dedicated native RTT test when no DNS server is configured, making them suitable for peer-to-peer access without requiring a reachable test URL. When a DNS server is configured, the policy is treated as a standard outbound proxy and continues to use the regular URL test process. WireGuard runtime information and diagnostics have also been updated to reflect the applicable testing mode.
+
+### Renovation
+
+- Surge Dashboard has received a comprehensive visual upgrade, along with optimized display of detailed request information.
+- Added proxy runtime details to the proxy page; right-click to view.
+
+### Minor Improvements
+
+- The Smart Group algorithm has been reviewed and upgraded, fixing several potential issues.
+- The `header` parameter for the HTTP proxy type can now override original fields, including Host field.
+- Added Gecko obfuscation support for Hysteria2, configured using the `gecko-password` parameter.
+- All TLS proxy protocols now support customizing ALPN using the `alpn` field.
+- When local DNS mapping is specified using server, multiple DNS servers can now be configured.
+- URL scheme actions are now supported in Surge Mac. Check manual for more information.
+- Enable the keep-alive mechanism for all QUIC-based protocols
+
+### Other
+
+- Optimize the performance of Surge Ponte.
+- The UI configuration interface has been completed for the recently added proxy protocol parameters, including Tailscale.
+- Fixed an issue where the `header` parameter did not take effect in HTTP/1.1 CONNECT mode.
+- Fix some issues when using SF Symbols for policy group icons.
+- Fixed compatibility issues between DoH3 and some servers.
+
+]]></markdownDescription>
+      <pubDate>1784125661</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.7.0-11730-0a67faa98116f98471bc09b946def542.zip" sparkle:version="11730" sparkle:shortVersionString="6.7.0" sparkle:edSignature="UH57TukN04wL2EKhSiwrYS/hE2htxHP08M0lJ27wy1oEFcOIu0AMHolkYwQAr9qJtd16gGdziznuGIl7rNnSCw=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.6.0</title>
+      <markdownDescription><![CDATA[
+### Logbook
+
+The Logbook feature has now been added to Surge for Mac and iOS. Logbook is used to persistently record events, and they won’t be lost after Surge is closed. (The current version keeps only the most recent 7 days of events by default.)
+
+- Surge Dashboard supports reading Logbook content from remote instances, and also supports viewing the input/output of script-type records as well as log output. The peer can be Surge iOS or Mac, and all content supports remote loading.
+
+- The Mac version has added Logbook entries for configuration reloads, network switching, crash recovery, updates, and DHCP-related events. More log information will continue to be added in future updates.
+
+
+### Proxy Protocol 
+
+- Added HTTP/2 CONNECT proxy support. You can configure HTTP/2-based CONNECT proxy connections via the h2-connect type.
+- HTTP, HTTPS, HTTP/2 CONNECT, and TrustTunnel proxies now support custom request headers. You can add extra headers in the proxy configuration using headers=, for example:
+
+```
+Proxy = http, example.com, 8080, headers=X-Client:Surge;X-Token:abc
+Proxy = h2-connect, example.com, 443, headers=X-Padding:<random-string(16-32)>
+```
+
+Custom headers support the `<random-string(n)>` and `<random-string(min-max)>` placeholders. A URL-safe random string will be generated automatically when connecting, suitable for scenarios that require dynamic padding or request fingerprint perturbation.
+
+- HTTP/2 CONNECT and the TrustTunnel proxy now support multiplexing. Because too many sub-connections multiplexed over the same TCP connection may cause performance issues, by default up to 3 sub-connections are allowed. This can be adjusted via the policy parameter `max-streams`.
+
+
+### Policy Group Icon
+
+- You can now edit the policy group icons directly via the UI.
+- In addition to URL icons, you can also use Emoji, Surge’s built-in icon library, and SF Symbols.
+- Policy group icons are now written directly into the profile in a way that is shared with the Surge iOS version.
+
+### Agent Skill
+
+- Add a wizard page for Agent Skill usage to the Help menu
+
+### Other
+- Fixed an issue where sending SNI did not strictly comply with RFC6066. Now, when an IP address is used as the hostname, the IP address will not be sent as SNI.
+- Fixed an issue where crashes could occur when using ShadowTLS with certain servers.
+
+]]></markdownDescription>
+      <pubDate>1780324303</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.6.0-11270-68599760a9dfa8ea625dd4ce491e534e.zip" sparkle:version="11270" sparkle:shortVersionString="6.6.0" sparkle:edSignature="hO3qHbMT4Ik8bK+Oy9l4D38/ULyjapaODASbe4OS9LpwWimrUHn+GJ8OwweJgTpAfjcYfKn/CO8iSj/EW+f9Dw=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.5.0</title>
+      <markdownDescription><![CDATA[
+### Agent Skill
+- Surge now fully supports AI agent skill operations. We have built in instructions on how to use surge-cli to operate Surge, and have fully exposed all capabilities of surge-cli. Tell the following to your agent that supports skills to use it: 
+
+`Install the skill from the /Applications/Surge.app/Contents/Resources/Skills/ directory using a symbolic link to ensure the skill can be updated along with the application bundle.`
+      
+### Policy Group Icon 
+- It is now supported, as in the iOS version, to configure an icon for a policy group for display. You need to configure the `icon-url` field. There is currently no UI setting; you need to modify the configuration manually.
+      
+### [DHCP] Section
+Added support for a new [​DHCP] configuration section to customize DHCP settings. You can now control `max​-lease​-time`, `default​-lease​-time`, `min​-lease​-time`, `one​-lease​-per​-client`, and `ping​-check` directly from profile parameters.
+
+```
+[DHCP]
+max-lease-time = 86400
+default-lease-time = 43200
+min-lease-time = 600
+one-lease-per-client = true
+ping-check = true
+```
+
+This feature is only provided for users with special needs; generally, the default settings are sufficient and no configuration is required.
+      
+### Other Improvements
+- Added support for the X25519MLKEM768 post-quantum hybrid key exchange group for all TLS-related features (such as proxy clients and MITM), combining X25519 with ML-KEM-768 for quantum-resistant key exchange.
+- Experimental support for `compatibility-mode = 5`
+
+
+]]></markdownDescription>
+      <pubDate>1776215936</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.5.0-10960-4b553c3553fbbe2a57301cdff9ffcf8e.zip" sparkle:version="10960" sparkle:shortVersionString="6.5.0" sparkle:edSignature="6ruIiJbGIR+B71UZqXvMgo206SrWsTIvKBe9j4x+l5wJJaGLEQzEHXYO3KTvV5WEXW8w4EHz4hUA9QyvBo9NCQ=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.4.4</title>
+      <markdownDescription><![CDATA[
+### Throughput Test
+Now you can customize all the parameters of the throughput test.
+```
+[Testing]
+download-url = 
+upload-url =
+download-url-proxy = // If not provided, use download-url
+upload-url-proxy = // If not provided, use upload-url
+download-concurrency = // Default is 4
+upload-concurrency = // Default is 4
+download-duration-limit = // Default is 10s
+upload-size-limit = // Default is 1GB
+upload-duration-limit =  // Default is 10s
+```
+      
+### Proxy Protocol
+Experimental support for the Trust Tunnel proxy protocol, which is developed and maintained by AdGuard. (Although the project promotes Trust Tunnel as a VPN protocol, it is actually a proxy protocol.)
+- This protocol is based on TLS, so all TLS-related parameters can be configured and used.
+- Currently, only the HTTP/2 (TCP)-based operating mode is supported.
+- UDP forwarding support has not been completed yet.
+
+Configuration example: `proxy = trust-tunnel, 192.168.20.62, 443, username=test, password=test`
+      
+### Minor Improvements
+- Fixed an issue where AnyTLS could get stuck in reuse mode when used with certain servers.
+- Support drag-and-drop reordering on the proxy view and local DNS mapping view.
+- Fix the issue where the related statistics for the DIRECT policy were not saved correctly.
+- Using an unknown policy name in a policy group will no longer be treated as a profile error.
+- Bug fixes.
+
+]]></markdownDescription>
+      <pubDate>1759632949</pubDate>
+      <pubDateDisplay>1773121709</pubDateDisplay>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.4.4-10661-fb942ed275c11bd69e1b4f4db2b795f4.zip" sparkle:version="10661" sparkle:shortVersionString="6.4.4" sparkle:edSignature="75zTBxOf2znf8hlvSHcrnqdMO1lb9coXI0yat1UQzPHNZSQBPS+xxH5PyKoEZ5yn9nAsy5QnNGiBo7ReFmvoDQ=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.4.3</title>
+      <markdownDescription><![CDATA[
+### Proxy Protocol
+- Support for a new proxy protocol: AnyTLS.
+- Supports Salamander obfuscation mode of Hysteria 2, with the configuration parameter `salamander-password`.
+- The QUIC block behavior for all proxy protocols is now set to block by default.
+
+### Browser Integration
+- Add support for the Brave browser.
+
+### Proxy Editing Improvements
+- When you hold down the Option key and click the Surge main menu, hidden policy groups will now be displayed.
+- You can now directly test whether the current proxy parameters are correct during the process of editing the proxy.
+
+### New DNS Mapping Keyword
+- Added the `force-syslib` keyword for DNS mapping.
+- The original `system` and `syslib` keywords have exactly the same effect: when enhanced mode is not enabled, the system library will be used for resolution; when enhanced mode is enabled, Surge will perform resolution using the system's DNS server.
+- When using the `force-syslib` keyword, the system library will be used for resolution regardless of whether enhanced mode is enabled. Please note that this may cause recursive request issues. This option is designed for special domains such as mDNS; do not configure this parameter for general domains.
+
+### Dashboard Improvements
+- Enhanced the Host view of the request list. Now all IP address requests can be viewed grouped by AS.
+
+### CLI Improvements
+- Now you can use the `surge-cli -c profile.conf` command to check whether a profile is valid.
+
+]]></markdownDescription>
+      <pubDate>1768277870</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.4.3-10320-a70a06382543d5a6ae0c0296e4148569.zip" sparkle:version="10320" sparkle:shortVersionString="6.4.3" sparkle:edSignature="OLsQq3Klp9hoK1in2mZ9SiyIghsnRuA25wPmH5SnKU80M/bpZKH704er25gFj/tmGRZyc83wmJf8jneiMXurCg=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.4.2</title>
+      <markdownDescription><![CDATA[
+- It is now possible to enable or disable the UDP Fast Path feature for individual devices.
+- IPv6 RA override no longer broadcasts new DNS addresses to ensure maximum compatibility.
+- Adjusted the storage mechanism for traffic statistics. In previous versions, changes to a policy's configuration caused the policy's traffic statistics to be reset. Now, traffic statistics rely solely on the policy name (and the policy group name for external policies), so modifying the configuration will no longer result in the loss of statistical data.
+- Surge Enterprise is being renamed to Surge Team, which will be used for team licensing and profile management. We will provide more information later.
+- Bug fixes.
+]]></markdownDescription>
+      <pubDate>1765091860</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.4.2-9830-28a1025189d49a3f938384b58c8f5000.zip" sparkle:version="9830" sparkle:shortVersionString="6.4.2" sparkle:edSignature="QUVOHmnQQ6fQmvBs6isMz4Wiv+RALS3i2BQeOd2DnH7y+GAPJuDHvasB3tXq6cIjwjrY6sdyk7aDPi6pboFTCA=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.4.1</title>
+      <markdownDescription><![CDATA[
+- Improved the stability of the UDP Fast Path, preventing previous UDP connections from being affected by fast path fallback.
+- Other bug fixes.
+]]></markdownDescription>
+      <pubDate>1762312415</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.4.1-9550-d5ca6e6585c0a68908898b04d45e846e.zip" sparkle:version="9550" sparkle:shortVersionString="6.4.1" sparkle:edSignature="54S3CVzPfpO9DfX6wPIamDZHdplx386jTOOOaLx/jvmJKAmXF5cZF6n1ZReNw/hSFLEU+N/tsQYg+mtTigbnBQ=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.4.0</title>
+      <markdownDescription><![CDATA[
+      
+### Surge Gateway VM UDP Fast Path
+      
+- Currently, when using Surge in gateway mode to take over a device, if P2P applications (such as BT downloads, game installers, live streaming, etc.) are used on the device, it may result in a large number of connections appearing in the Dashboard, slowing down overall speed. If the number of connections is extremely high, it may even exhaust system resources and force Surge to restart.
+
+- The cause of this issue is that Surge operates as a layer 4 proxy, and for every UDP packet with a different quadruple, it needs to be handled as a new connection. For most applications, even if UDP is used, only a few logical connections are typically generated, so the overhead is completely acceptable. However, for P2P applications, nearly a thousand logical connections may be generated within a few seconds.
+
+- Therefore, this version introduces a UDP Fast Path defense mechanism. When a client initiates a large number of UDP connections in a short period of time (10 within 1 second or 30 within 10 seconds), UDP Fast Path will be enabled for that client, downgrading UDP packet processing to L3. In this mode, performance is extremely high, far exceeding the physical network card speed limit, so there is no longer a need to worry about resource consumption issues.
+
+Additionally:
+
+-  Packets under UDP Fast Path will be forwarded directly and cannot go through the proxy.
+-  For UDP packets with a destination port number less than 1024, they will always be forwarded using the normal processing mode to avoid affecting regular applications.
+
+### Bug Fixes
+
+- Fix the issue where the HTTP engine might get stuck when handling consecutive requests.
+- Fixed the issue where using Snell v3 to carry UDP traffic could cause a crash.
+]]></markdownDescription>
+      <pubDate>1761209690</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.4.0-9300-e98a7823cda03b486e25eef4e7642796.zip" sparkle:version="9300" sparkle:shortVersionString="6.4.0" sparkle:edSignature="XCMc4wbhOMEYERm2J7ShYKC/NDBKHAtbGmXclZvOXG8CHP18vhaUEzimWNTeFZ9DofCHpQVBdFRvbbDwU5stCA=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.3.1</title>
+      <markdownDescription><![CDATA[
+- The proxy diagnostic tool has added upload and download bandwidth testing.
+- According to mainstream operating system conventions, adjust all traffic and statistics from a 1024 base to a 1000 base.
+- Optimized the menu for adding rules in the Dashboard
+- Fixed the issue where the MAC-ADDRESS rule was not taking effect correctly.
+- Fixed the issue where some application icons could not be displayed on macOS 26.1.
+- Fixed a potential issue where reloading the profile could cause a freeze when Surge Ponte is enabled.
+- Fix potential memory leaks when using TLS-based proxy protocols.
+- Fixed some color issues on macOS 26.
+- Bug fixes.
+]]></markdownDescription>
+      <pubDate>1759632949</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.3.1-8860-8f86c3db83766069231e9c48e858053e.zip" sparkle:version="8860" sparkle:shortVersionString="6.3.1" sparkle:edSignature="HzWA/EFa6/t8BjDWPuw74c+G52XdisvltoV7/pLTw3v2mVtTpNWb/d/AIgPO53nEQ/5TD2MbvU5nPUM686F/BQ=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.3.0</title>
+      <markdownDescription><![CDATA[
+- Ready for macOS 26.
+- Bug fixes.
+]]></markdownDescription>
+      <pubDate>1757559226</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.3.0-8560-e2722a66aa0ecc9dd60c3e8707aae567.zip" sparkle:version="8560" sparkle:shortVersionString="6.3.0" sparkle:edSignature="h+NTTF641t8uqmjg9/Tuv2tM7mPgakkp/fzJ6tmJD4CXrjfwv2GPqLPqzqkKufOBzoUqq01tGT0PXrSxwsmaCw=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.2.0</title>
+      <markdownDescription><![CDATA[
+### Core Improvements
+- The `interface` parameter in policies can now also take effect on DNS queries. Enable this feature for the policy configuration `dns-follow-interface=true`. DNS requests that match the policy will use the specified interface for resolution. (If DNS is triggered during the rule matching phase, a specific interface will not be used.)
+- The network quality detection subsystem has been rewritten with more comprehensive checking logic, so notifications are no longer triggered frequently when the network is unstable.
+
+### Ponte Server Upgrade
+- Optional active standby mode: When Surge detects that the main network interface is unavailable for a period of time, Ponte will automatically switch to another interface (such as 5G USB modem or multi-WAN scenarios). At the same time, iCloud will temporarily use this interface to complete new address announcements.
+- IPv6 can be configured to take effect on specific interfaces or enabled for all interfaces, suitable for multi-WAN scenarios.
+- Supports cross-subnet intranet connections such as multiple VLANs.
+
+]]></markdownDescription>
+      <pubDate>1754535032</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.2.0-8310-710082409fef1dc8f4011dd74697969c.zip" sparkle:version="8310" sparkle:shortVersionString="6.2.0" sparkle:edSignature="vjc0bJVXqI5N9LJqyqhrEkTz2rRoUGc45vGxWSpb0wUGZTiwojBR2nJhRhDXuXwn1LTaNcaeGo/0dDGo3dSaCQ=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.1.0</title>
+      <markdownDescription><![CDATA[
+### New
+- The Surge Gateway VM and DHCP functions have been decoupled, so now the Gateway VM can be enabled without enabling DHCP. Additionally, the configuration page for gateway mode has been redesigned, allowing direct modification of the configuration.
+- Added a new rule type `MAC-ADDRESS` for directly matching specific clients using MAC addresses.
+- The `client-source-address` parameter of `[MITM]` now supports specifying MAC addresses in addition to IPs, to address the issue of client IPv6 request address changes.
+
+### Improvements
+- Optimized the behavior of Ponte NAT traversal mode to always use local port 6208 in order to improve the success rate of traversal.
+- Support automatically configuring system proxy settings when only listening with IPv6 interface.
+- Improve the compatibility of IPv6 RA override with Windows clients.
+- gQUIC support has been added to the QUIC Mode of Snell v5.
+
+### Fixes
+- Fixed a potential no network issue that could occur under high concurrency.
+- Fix compatibility issues with large UDP packets in the new version of Hysteria 2.
+
+]]></markdownDescription>
+      <pubDate>1753601015</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.1.0-8010-18098a9cac2d1d9c4b477873e3b037cf.zip" sparkle:version="8010" sparkle:shortVersionString="6.1.0" sparkle:edSignature="sGZjj7/nY62eiF5MxDWaROpOxa7HoJTrKjOeNARYcGh9pf4cbsMujF+T7sCWM1S5lImwasB0FqylFCfKjm1rDQ=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.0.2</title>
+      <markdownDescription><![CDATA[
+- Improve the compatibility of IPv6 RA override with Windows clients.
+- Improve the stability of VMNET on older versions of macOS.
+- Fixed a potential unexpected drop in throughput under HTTP mode.
+- Fixed the issue where the Dashboard device list could not be sorted by MAC address.
+- Fixed some interface layout issues on devices without a connected touchpad.
+
+]]></markdownDescription>
+      <pubDate>1752668628</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.0.2-7560-e67bf53126620427b01e574242e88dc0.zip" sparkle:version="7560" sparkle:shortVersionString="6.0.2" sparkle:edSignature="FRIwhH5AdMmT0TxcUNwsLPshVvtdvxTLc+d3KsOsmPWfiYIFe5W8vtP7X0QQ7qtWG4LCT0PtDN6sZmouwVRuBg=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.0.1</title>
+      <markdownDescription><![CDATA[
+- Restored support for Snell v2/v3.
+- Bug fixes.
+
+]]></markdownDescription>
+      <pubDate>1752374885</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.0.1-7400-cb59cf65ab136785580975a82cc49dbd.zip" sparkle:version="7400" sparkle:shortVersionString="6.0.1" sparkle:edSignature="KewrZGP1ZEre4GI42EuoU0wvjH6/u83ebiNx7DZFnnccfQsoeRV13coNZClXVJqc7TbpiaXe5CQzw1HRwjh0CQ=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 6.0.0</title>
+      <markdownDescription><![CDATA[
+      
+### Quick Release Highlights
+Please refer to the knowledge base for the complete update notes: [https://kb.nssurge.com/surge-knowledge-base/release-notes/surge-mac-6-release-note](https://kb.nssurge.com/surge-knowledge-base/release-notes/surge-mac-6-release-note)
+
+### UI Refresh
+- Brand new design style
+- New dashboard with richer metrics
+- Almost all pages have been refined.
+- The complete macOS 26 style adjustments will be made in subsequent versions.
+
+### Surge Gateway VM
+- **Gateway VM** (Layer 2 via VMNET) replaces the old DHCP mode, cutting overhead and enabling richer gateway features.  
+- **IPv6 RA Override** issues higher-priority RA messages to selected devices, fixing Fake DNS conflicts and fully taking over IPv6 without affecting others.  
+
+### New VIF Engine
+- Comprehensive optimization for Network Extension, significantly improving performance and enhancing stability in special cases, restoring v2/v3 performance lost on macOS Sequoia.  
+
+### Ponte 2.0
+- Supports multiple NAT-traversal channels (IPv6 direct, several proxy relay lines) in parallel; clients auto-select the fastest.  
+- Ships with a self-hosted, low-latency STUN service.
+
+### Smart Group
+- UDP flows now receive the same intelligent path selection as TCP.  
+- Resolves prior conflicts with Snell connection reuse.
+
+### Snell v5
+- **Dynamic Record Sizing** trims latency on lossy links.  
+- **QUIC Proxy Mode** (UDP-over-UDP) activates for QUIC traffic, encrypts only the handshake to shield SNI while avoiding TCP-over-UDP overhead.  
+
+### Traffic Statistics
+- Per-hostname views and month-long timelines.  
+- Aggregates helper processes under their parent app.
+
+### Fake DNS v6
+- DNS server now answers AAAA on `fd00:6152::2`, allowing pure-IPv6 deployments.
+
+### Linked Profiles
+- `#include` can point directly to managed-profile URLs; Surge now prompts to create a linked layer when edits are attempted.
+
+### Other Improvements
+- Single-IP support in `IP-CIDR` and `IP-CIDR6` rules (`/32` or `/128` implied).  
+- `PROTOCOL,TCP` applies to HTTP/HTTPS for semantic parity.  
+- Faster loading for huge profiles.  
+- `full-header-mode` exposes complete header arrays.  
+- Default fallback for proxies lacking UDP support: **REJECT**.  
+- Adds zstd compression and faster wildcard matching.  
+- Entire Advanced Settings page rewritten—every parameter editable in-app.
+
+]]></markdownDescription>
+      <pubDate>1751299200</pubDate>
+      <enclosure url="https://dl.nssurge.com/mac/v6/Surge-6.0.0-7210-3c89094d79d9dcff8b276e7b55ecf004.zip" sparkle:version="7210" sparkle:shortVersionString="6.0.0" sparkle:edSignature="L4FGLzyVa5HbzEW9jUBJbFqpgp+qIIC7YZHUMoT11x2v9DxSmPdR8fGvz05PTo+ZRQEc0k4yyPLTJ1GSvQWlCQ=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 5.10.5</title>
+      <markdownDescription><![CDATA[
+- Ready for Surge Mac 6.
+- Fix the issue of incorrect main menu text color in dark mode on macOS 26 beta.
+]]></markdownDescription>
+      <enclosure url="https://dl.nssurge.com/mac/v5/Surge-5.10.5-3350-e93dc85636fe529df08c6e4f80d0e8a9.zip" sparkle:version="3350" sparkle:shortVersionString="5.10.5" sparkle:edSignature="pQa/eT/6WJDYqR/3tFgMatN/hAxmUjJ9o1xGggPJxL/HxqsDpbGfb6y1pcLF5cKL4z2JK1Ch0hI80VomgaApAg=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 5.10.4</title>
+      <markdownDescription><![CDATA[
+- Ready for Surge Mac 6.
+- Fixed issues for macOS 26 beta.
+- Bug fixes and other improvements.
+
+]]></markdownDescription>
+      <enclosure url="https://dl.nssurge.com/mac/v5/Surge-5.10.4-3330-47c0d46e960e347dcd44f46002d50966.zip" sparkle:version="3330" sparkle:shortVersionString="5.10.4" sparkle:edSignature="1PpvKBPjfhSHEynzOJhiu+S8MEkYmTI7uxaYQO1TxXdV75L/cI6D5BuR0PJls839b0nDOdJAxtaR7QB7YeTcBg=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+    <item>
+      <title>Version 5.10.3</title>
+      <markdownDescription><![CDATA[
+- Added `[General]` parameter `block-quic`, which is used to globally override the behavior of whether to block QUIC traffic. It can be set to:
+    - `per-policy`: Determined by the policy's `block-quic` parameter, default value, i.e., current version behavior.
+    - `all-proxy`: Overrides the proxy policy's `block-quic` parameter, blocks all
+    - `all`: Overrides all policies' `block-quic` parameters, blocks all including DIRECT policy
+    - `always-allow`: Overrides the proxy policy's `block-quic` parameter, allows all  
+
+- The adding new rule view can now remember previous options.
+- Added dark mode support to the error page.
+- Add integration support for the Dia browser.
+- Bug fixes and other improvements.
+
+]]></markdownDescription>
+      <enclosure url="https://dl.nssurge.com/mac/v5/Surge-5.10.3-3272-5cf851de0c9af2bf96ab410244010f9a.zip" sparkle:version="3272" sparkle:shortVersionString="5.10.3" sparkle:edSignature="1RpqdH4RQcJVZsBzsuWRsIcdosDhJklf7SGgOiJiYWleifLfwOo7CFdJWOr+ad2C2VbjiyCmzJ8uzPFVlj1GDw=="/>
+      <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+    </item>
+  </channel>
+</rss>
